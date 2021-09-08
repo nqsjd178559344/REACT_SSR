@@ -1,0 +1,10 @@
+const Koa = require('koa')
+const server = require('koa-static')
+const {resolve} = require('path')
+const initRoute = require('./router')
+const app = new Koa()
+initRoute(app)
+app.use(server(resolve(__dirname,'../../dist')))
+app.listen(3000,()=>{
+    console.log('开始监听3000端口~')
+})
