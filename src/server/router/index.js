@@ -2,7 +2,7 @@ const React = require("react")
 const Router = require("@koa/router")
 const fs = require('fs')
 const serverBundle = require('../../../dist/server-bundle').default;
-const { renderToString } = require('react-dom/server')
+const { renderToString } = require('react-dom/server') // !better: renderToNodeStream
 
 const { resolve } = require('path')
 
@@ -14,7 +14,7 @@ const fileResolve = file => resolve(__dirname, file)
 const template = fs.readFileSync(fileResolve('../../../dist/index.html'), 'utf-8')
 // 处理模板、store
 const handleTemplate = template => {
-    return ({ html }) => template.replace('<div id="root"></div>', `<div id="root">${html}</div>`)
+    return ({ html, store }) => template.replace('<div id="root"></div>', `<div id="root">${html}${store}</div>`)
 }
 
 module.exports = (app) => {
@@ -37,7 +37,8 @@ module.exports = (app) => {
         const jsx = await serverBundle(ctx)
         const html = renderToString(jsx)
         const body = render({
-            html
+            html,
+            store: `<script>window.REDUX_STORE=${JSON.stringify(ctx.apiData)}</script>`
         })
         ctx.body = body
     });
