@@ -16,8 +16,10 @@ const serverConfig = {
     // 制定环境
     target: 'node',
     module: {
-        test: '\.css$',
-        use: [MiniCssExtractPlugin.loader, "css-loader"]
+        rules: [{
+            test: /\.css$/,
+            use: [MiniCssExtractPlugin.loader, "css-loader"]
+        }]
     },
     externals: nodeExternals(), // !不让第三方依赖打包到输出文件中
     module: {
