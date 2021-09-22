@@ -21,7 +21,7 @@ const serverConfig = {
             use: [MiniCssExtractPlugin.loader, "css-loader"]
         }]
     },
-    externals: nodeExternals(), // !不让第三方依赖打包到输出文件中
+    externals: nodeExternals(), // !不让第三方依赖打包[node_modules等]到输出文件中
     module: {
         rules:
             [
